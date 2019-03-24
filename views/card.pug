@@ -1,0 +1,19 @@
+extends layout.pug
+
+block content
+  
+  section#content
+  table
+    tr
+      td First Name
+      td Last Name
+    each friend in friends
+      tr
+        td= friend.name
+        td= friend.lastName
+  h2 #{prompt}
+  if hint
+    p
+    i Hint: #{hint}
+  else
+    p (There is no hint.)
