@@ -14,31 +14,31 @@ app.use(cookieParser());
 
 app.set('view engine', 'pug');
 
-app.get('/', (req, res) => {
-  const name = req.cookies.username;
-  if ( name ) {
-    res.render('index', { name });
-  } else {
-    res.redirect('/hello');
-  }
+
+const generalRoutes = require('./routes')
+app.use(generalRoutes);
+
+const cardsRoutes = require('./routes/cards')
+app.use('/cards', cardsRoutes);
+
+
+app.use((req, res, next) => {
+  console.log('Middle');
+  next();
 });
 
-app.get('/cards', (req, res) => {
-  res.render('card', {  prompt: "Who is knocking in the door?", hint: "Look at the picture", friends });
+
+app.use((req, res, next) => {
+  console.log('start of custom middleware');
+  const err = new Error('Not found');
+  err.status = 404;
+  next(err);
 });
 
-app.get('/hello', (req, res) => {
-  const name = req.cookies.username;
-  if ( name ) {
-    res.redirect('/');
-  } else {
-    res.render('hello');
-  }
-});
-
-app.post('/hello', (req, res) => {
-  res.cookie('username', req.body.username)
-  res.redirect('/');
+app.use((err, req, res, next) => {
+  res.locals.error = err;
+  res.status(err.status);
+  res.render('error');
 });
 
 app.listen(3000);
