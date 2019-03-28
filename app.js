@@ -14,6 +14,7 @@ const cardsRoutes = require('./routes/cards');
 
 app.use(bodyParser.urlencoded({ extended : false }));
 app.use(cookieParser());
+app.use('/static', express.static('public'));
 
 app.set('view engine', 'pug');
 
@@ -29,7 +30,13 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
   res.locals.error = err;
-  res.status(err.status);
+  if(err.status) {
+    res.status(err.status);
+    console.log('Error status code is: ', err.status);
+  } else {
+    res.status(404);
+    console.log('Error status: ', err.status, ' Setting response status to 404.');
+  }
   res.render('error');
 });
 

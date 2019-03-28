@@ -1,8 +1,7 @@
 extends layout.pug
 
 block content
-  section#content
-    h2 Welcome, #{name}!
-  section#exitForm
-    form(action='/goodbye', method='post')
-      button(type='submit') exit
+
+  section#begin
+    p
+      a(href='/cards') Begin!
