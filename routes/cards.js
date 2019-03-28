@@ -1,8 +1,20 @@
 const express = require('express');
-const router = express.Router();
+const routerr = express.Router();
+const { data } = require('../data/flashCardsData.json');
+const { cards } =  data ;
 
-router.get('/cards', (req, res) => {
-  res.render('card', { prompt: "Who is knocking at the door?" })
+routerr.get('/:id', (req, res) => {
+  const { side } = req.query;
+  const { id } = req.params;
+  const text = cards[id][side];
+  const { hint } = cards[id];
+  const templateData = { text };
+
+  if(side === "question") {
+    templateData.hint = hint;
+  }
+
+  res.render('card', templateData);
 });
 
-module.exports = router;
+module.exports = routerr;

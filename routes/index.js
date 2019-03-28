@@ -15,10 +15,6 @@ router.post('/goodbye', (req, res) => {
   res.redirect('/hello');
 });
 
-router.get('/cards', (req, res) => {
-  res.render('card', {  prompt: "Who is knocking in the door?", hint: "Look at the picture", friends });
-});
-
 router.get('/hello', (req, res) => {
   const name = req.cookies.username;
   if ( name ) {
